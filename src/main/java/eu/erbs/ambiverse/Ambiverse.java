@@ -37,7 +37,6 @@ public class Ambiverse
 	public static void main(String... args) throws IOException, OAuthSystemException, OAuthProblemException
 	{
 		log.info("Started Ambiverse connection.");
-		oAuthClient = new OAuthClient(new URLConnectionClient());
 		String accessToken = getAccessToken();
 
 		String input = "Barcelona plays against Bilbao in Madrid.";
@@ -59,6 +58,8 @@ public class Ambiverse
 
 	public static String getAccessToken() throws OAuthSystemException, OAuthProblemException
 	{
+
+		oAuthClient = new OAuthClient(new URLConnectionClient());
 
 		OAuthClientRequest request = OAuthClientRequest
 				.tokenLocation(AUTHORIZATION_HOST)
