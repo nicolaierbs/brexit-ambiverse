@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
+import org.json.JSONException;
 import org.junit.Test;
 
 public class AmbiverseUtilsTest
@@ -24,7 +25,7 @@ public class AmbiverseUtilsTest
 	// }
 
 	@Test
-	public void test() throws OAuthSystemException, OAuthProblemException
+	public void test() throws OAuthSystemException, OAuthProblemException, JSONException, InterruptedException
 	{
 		Map<String, List<String>> entities = AmbiverseUtils
 				.getEntitesAndCategories("Barcelona plays against Bilbao in Madrid.");

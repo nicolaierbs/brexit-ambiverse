@@ -72,7 +72,7 @@ public class AmbiverseUtils
 	}
 
 	public static Map<String, List<String>> getEntitesAndCategories(String text)
-			throws JSONException, OAuthSystemException, OAuthProblemException
+			throws JSONException, OAuthSystemException, OAuthProblemException, InterruptedException
 	{
 		Map<String, List<String>> categories = new HashMap<String, List<String>>();
 
@@ -100,9 +100,10 @@ public class AmbiverseUtils
 	}
 
 	private static List<String> getCategoryNames(List<String> categoryIds, String accessToken)
-			throws JSONException, OAuthSystemException, OAuthProblemException
+			throws JSONException, OAuthSystemException, OAuthProblemException, InterruptedException
 	{
 		List<String> categories = new ArrayList<String>();
+		Thread.sleep(1000l);
 		JSONArray array = new JSONObject(Ambiverse.getCategoryNames(categoryIds, accessToken))
 				.getJSONArray("categories");
 		for (int i = 0; i < array.length(); i++)

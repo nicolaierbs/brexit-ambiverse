@@ -28,7 +28,7 @@ public class Ambiverse
 	private static String ENTITY_INFORMATION_HOST = "https://api.ambiverse.com/knowledgegraph/v1beta1/entities";
 	private static String CATEGORY_NAMES_HOST = "https://api.ambiverse.com/knowledgegraph/v1beta1/categories";
 
-	private static String REDIRECT_URI = "https://www.ambiverse.com";
+	private static String REDIRECT_URI = "https://api.ambiverse.com";
 	private static String CLIENT_ID = "27f2564a2dc64c8e8dc08b3ac0ef7323";
 	private static String CLIENT_SECRET = "00e5a697863642ee8ccfabf3160795db";
 
@@ -65,14 +65,14 @@ public class Ambiverse
 				.tokenLocation(AUTHORIZATION_HOST)
 				.setClientId(CLIENT_ID)
 				.setClientSecret(CLIENT_SECRET)
-				.setRedirectURI(REDIRECT_URI)
 				.setGrantType(GrantType.CLIENT_CREDENTIALS)
 				.setScope("all")
 				.buildBodyMessage();
 		// create OAuth client that uses custom http client under the hood
 		OAuthJSONAccessTokenResponse response = oAuthClient.accessToken(request);
 
-		log.info("Access token expires in " + response.getExpiresIn() / 3600 + " minutes.");
+		log.info("Access token expires in " + response.getExpiresIn() / 3600 + " minutes (" + response.getAccessToken()
+				+ ")");
 		return response.getAccessToken();
 	}
 
@@ -88,6 +88,8 @@ public class Ambiverse
 
 		OAuthResourceResponse resourceResponse = oAuthClient.resource(bearerClientRequest, OAuth.HttpMethod.POST,
 				OAuthResourceResponse.class);
+		// log.info("Remaining: " +
+		// resourceResponse.getParam("X-RateLimit-Remaining-day"));
 
 		return resourceResponse.getBody();
 	}
