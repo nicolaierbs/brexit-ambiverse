@@ -1,6 +1,7 @@
 package eu.erbs.ambiverse;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,8 @@ import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import eu.erbs.ambiverse.model.EntityRepresentation;
 
 public class AmbiverseUtils
 {
@@ -71,22 +74,26 @@ public class AmbiverseUtils
 		return entities;
 	}
 
-	public static Map<String, List<String>> getEntitesAndCategories(String text)
+	public static List<EntityRepresentation> getEntityRepresentations(Collection<String> entities)
 			throws JSONException, OAuthSystemException, OAuthProblemException, InterruptedException
 	{
-		Map<String, List<String>> categories = new HashMap<String, List<String>>();
+		List<EntityRepresentation> entityRepresentations = new ArrayList<EntityRepresentation>();
+		log.info(entities.size() + " entities");
 
 		String accessToken = Ambiverse.getAccessToken();
-		JSONArray entities = new JSONObject(Ambiverse.getEntityInformation(getEntities(text, accessToken), accessToken))
+		JSONArray entitiesJson = new JSONObject(Ambiverse.getEntityInformation(entities, accessToken))
 				.getJSONArray("entities");
+		log.info(entitiesJson.length() + " entities in json");
 
 		JSONObject entity;
 		JSONArray categoryArray;
 		List<String> categoryIds;
-		for (int position = 0; position < entities.length(); position++)
+		EntityRepresentation entityRepresentation;
+		for (int position = 0; position < entitiesJson.length(); position++)
 		{
-			entity = entities.getJSONObject(position);
-			log.finer("Entity:\t" + entity.toString());
+			entity = entitiesJson.getJSONObject(position);
+			log.fine("Entity:\t" + entity.toString());
+
 
 			categoryArray = entity.getJSONArray("categories");
 			categoryIds = new ArrayList<String>();
@@ -94,25 +101,30 @@ public class AmbiverseUtils
 			{
 				categoryIds.add(categoryArray.getString(i));
 			}
-			categories.put(entity.getString("name"), getCategoryNames(categoryIds, accessToken));
+
+			entityRepresentation = new EntityRepresentation();
+			entityRepresentation.setId(entity.getString("id"));
+			entityRepresentation.setName(entity.getString("name"));
+			entityRepresentation.setCategories(categoryIds);
+			entityRepresentations.add(entityRepresentation);
+
 		}
-		return categories;
+		return entityRepresentations;
 	}
 
-	private static List<String> getCategoryNames(List<String> categoryIds, String accessToken)
+	public static Map<String, String> getCategoryNames(Collection<String> categoryIds, String accessToken)
 			throws JSONException, OAuthSystemException, OAuthProblemException, InterruptedException
 	{
-		List<String> categories = new ArrayList<String>();
-		Thread.sleep(1000l);
+		Map<String, String> categories = new HashMap<String, String>();
+		Thread.sleep(1000);
 		JSONArray array = new JSONObject(Ambiverse.getCategoryNames(categoryIds, accessToken))
 				.getJSONArray("categories");
 		for (int i = 0; i < array.length(); i++)
 		{
-			categories.add(array.getJSONObject(i).getString("name"));
+			categories.put(array.getJSONObject(i).getString("id"), array.getJSONObject(i).getString("name"));
 		}
 		// INFO: {"categories":[{"id":"YAGO3:<The_Who>","name":"The
 		// Who"},{"id":"YAGO3:<Tommy_(album)>","name":"Tommy (album)"}]}
 		return categories;
 	}
-
 }
