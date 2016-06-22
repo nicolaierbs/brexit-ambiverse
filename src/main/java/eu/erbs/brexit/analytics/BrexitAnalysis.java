@@ -42,10 +42,10 @@ import eu.erbs.ambiverse.AmbiverseUtils;
 import eu.erbs.ambiverse.model.EntityRepresentation;
 import eu.erbs.dkpro.DKProUtils;
 
-public class Statistics
+public class BrexitAnalysis
 {
 
-	private static final Logger log = Logger.getLogger(Statistics.class.getName());
+	private static final Logger log = Logger.getLogger(BrexitAnalysis.class.getName());
 
 	private static boolean hasHeader = false;
 
@@ -140,6 +140,9 @@ public class Statistics
 		FrequencyDistribution<String> cameronLocationFrequencies = new FrequencyDistribution<String>(
 				cameronLocationList);
 
+		System.out.println("Boris Johnson: "
+				+ cameronEntityFrequencies.getCount("Boris Johnson") / (double) cameronEntityFrequencies.getN());
+
 		printFrequencyTable(
 				johnsonEntityFrequencies, cameronEntityFrequencies,
 				johnsonCategoryFrequencies, cameronCategoryFrequencies,
@@ -212,6 +215,12 @@ public class Statistics
 			// (100 * johnsonEntityFrequencies.getCount(jE.get(n)) / (double)
 			// johnsonEntityFrequencies.getN()));
 		}
+
+//		for (int n = 0; n < i; n++)
+//		{
+		// System.out.println(cL.get(n) + "," +
+//					(cameronLocationFrequencies.getCount(cL.get(n)) / (double) cameronLocationFrequencies.getN()));
+//		}
 
 	}
 
@@ -287,6 +296,21 @@ public class Statistics
 			{
 				if (!representationMap.get(entity).getName().equals("Labour Party (UK)")
 						&& !representationMap.get(entity).getName().equals("Conservative Party (UK)")
+						&& !representationMap.get(entity).getName().equals("Brussels")
+						&& !representationMap.get(entity).getName().equals("Newcastle upon Tyne")
+						&& !representationMap.get(entity).getName().equals("Canary Wharf")
+						&& !representationMap.get(entity).getName().equals("Mediterranean Sea")
+						&& !representationMap.get(entity).getName().equals("Baltic Sea")
+						&& !representationMap.get(entity).getName().equals("Eastern Ukraine")
+						&& !representationMap.get(entity).getName().equals("West Africa")
+						&& !representationMap.get(entity).getName().equals("Berlin")
+						&& !representationMap.get(entity).getName().equals("Schengen Area")
+						// &&
+						// !representationMap.get(entity).getName().equals("")
+						// &&
+						// !representationMap.get(entity).getName().equals("")
+						// &&
+						// !representationMap.get(entity).getName().equals("")
 						&& !representationMap.get(entity).getName().equals("Bloomberg L.P.")
 						&& !representationMap.get(entity).getName().equals("National Health Service")
 						&& !representationMap.get(entity).getName().equals("United Nations Security Council")
@@ -301,11 +325,74 @@ public class Statistics
 						&& !representationMap.get(entity).getName().equals("Home Secretary")
 						&& !representationMap.get(entity).getName().equals("World Trade Organization")
 						&& !representationMap.get(entity).getName().equals("European Economic Community")
+						&& !representationMap.get(entity).getName().equals("House of Commons Library")
 						&& !representationMap.get(entity).getName().equals("United Nations")
 						&& !representationMap.get(entity).getName().equals("Recording Industry Association of America"))
 				{
 					countryList.add(representationMap.get(entity).getName());
 				}
+			}
+		}
+		return countryList;
+
+	}
+
+	private static List<String> getCountryList(List<String> entities,
+			Map<String, EntityRepresentation> representationMap)
+	{
+		List<String> countryList = new ArrayList<String>();
+		for (String entity : entities)
+		{
+			// log.info(StringUtils.join(representationMap.get(entity).getCategoryNames(),
+			// ", "));
+			if (representationMap.get(entity).getCategoryNames().contains("Countries in Europe")
+					|| representationMap.get(entity).getCategoryNames().contains("British Islands")
+					|| representationMap.get(entity).getCategoryNames().contains("Germanic countries and territories"))
+			{
+				// if (!representationMap.get(entity).getName().equals("Labour
+				// Party (UK)")
+				// &&
+				// !representationMap.get(entity).getName().equals("Conservative
+				// Party (UK)")
+				// && !representationMap.get(entity).getName().equals("Bloomberg
+				// L.P.")
+				// && !representationMap.get(entity).getName().equals("National
+				// Health Service")
+				// && !representationMap.get(entity).getName().equals("United
+				// Nations Security Council")
+				// && !representationMap.get(entity).getName().equals("Battle of
+				// Britain")
+				// &&
+				// !representationMap.get(entity).getName().equals("International
+				// Monetary Fund")
+				// && !representationMap.get(entity).getName().equals("Home
+				// Office")
+				// && !representationMap.get(entity).getName().equals("European
+				// Council")
+				// && !representationMap.get(entity).getName().equals("European
+				// Union")
+				// && !representationMap.get(entity).getName().equals("National
+				// Health Service (England)")
+				// && !representationMap.get(entity).getName().equals("National
+				// Front (France)")
+				// &&
+				// !representationMap.get(entity).getName().equals("Palestinian
+				// National Authority")
+				// && !representationMap.get(entity).getName().equals("Home
+				// Secretary")
+				// && !representationMap.get(entity).getName().equals("World
+				// Trade Organization")
+				// && !representationMap.get(entity).getName().equals("European
+				// Economic Community")
+				// && !representationMap.get(entity).getName().equals("House of
+				// Commons Library")
+				// && !representationMap.get(entity).getName().equals("United
+				// Nations")
+				// && !representationMap.get(entity).getName().equals("Recording
+				// Industry Association of America"))
+				// {
+				countryList.add(representationMap.get(entity).getName());
+				// }
 			}
 		}
 		return countryList;

@@ -1,5 +1,7 @@
 package eu.erbs.ambiverse;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -45,7 +47,8 @@ public class AmbiverseUtils
 	private static final Logger log = Logger.getLogger(AmbiverseUtils.class.getName());
 
 
-	public static List<String> getEntities(String text) throws OAuthSystemException, OAuthProblemException
+	public static List<String> getEntities(String text)
+			throws OAuthSystemException, OAuthProblemException, FileNotFoundException, IOException
 	{
 		String accessToken = Ambiverse.getAccessToken();
 		return getEntities(text, accessToken);
@@ -75,7 +78,8 @@ public class AmbiverseUtils
 	}
 
 	public static List<EntityRepresentation> getEntityRepresentations(Collection<String> entities)
-			throws JSONException, OAuthSystemException, OAuthProblemException, InterruptedException
+			throws JSONException, OAuthSystemException, OAuthProblemException, InterruptedException,
+			FileNotFoundException, IOException
 	{
 		List<EntityRepresentation> entityRepresentations = new ArrayList<EntityRepresentation>();
 		log.info(entities.size() + " entities");

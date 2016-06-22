@@ -1,8 +1,11 @@
 package eu.erbs.ambiverse;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 import org.apache.oltu.oauth2.client.OAuthClient;
@@ -29,8 +32,6 @@ public class Ambiverse
 	private static String CATEGORY_NAMES_HOST = "https://api.ambiverse.com/knowledgegraph/v1beta1/categories";
 
 	private static String REDIRECT_URI = "https://api.ambiverse.com";
-	private static String CLIENT_ID = "27f2564a2dc64c8e8dc08b3ac0ef7323";
-	private static String CLIENT_SECRET = "00e5a697863642ee8ccfabf3160795db";
 
 	private static OAuthClient oAuthClient;
 
@@ -56,15 +57,19 @@ public class Ambiverse
 		log.info(categoryNames);
 	}
 
-	public static String getAccessToken() throws OAuthSystemException, OAuthProblemException
+	public static String getAccessToken()
+			throws OAuthSystemException, OAuthProblemException, FileNotFoundException, IOException
 	{
 
 		oAuthClient = new OAuthClient(new URLConnectionClient());
 
+		Properties properties = new Properties();
+		properties.load(new FileReader("src/main/resources/ambiverse.properties"));
+
 		OAuthClientRequest request = OAuthClientRequest
 				.tokenLocation(AUTHORIZATION_HOST)
-				.setClientId(CLIENT_ID)
-				.setClientSecret(CLIENT_SECRET)
+				.setClientId(properties.getProperty("CLIENT_ID"))
+				.setClientSecret(properties.getProperty("CLIENT_SECRET"))
 				.setGrantType(GrantType.CLIENT_CREDENTIALS)
 				.setScope("all")
 				.buildBodyMessage();
