@@ -50,7 +50,7 @@ public class AmbiverseUtils
 	public static List<String> getEntities(String text)
 			throws OAuthSystemException, OAuthProblemException, FileNotFoundException, IOException
 	{
-		String accessToken = Ambiverse.getAccessToken();
+		String accessToken = AmbiverseAccess.getAccessToken();
 		return getEntities(text, accessToken);
 
 	}
@@ -58,7 +58,7 @@ public class AmbiverseUtils
 	public static List<String> getEntities(String text, String accessToken)
 			throws OAuthSystemException, OAuthProblemException
 	{
-		JSONObject json = new JSONObject(Ambiverse.getEntites(text, accessToken));
+		JSONObject json = new JSONObject(AmbiverseAccess.getEntites(text, accessToken));
 
 		List<String> entities = new ArrayList<String>();
 		// {"docId":"test","matches":[{"charLength":9,"charOffset":0,"entity":{"kgId":"YAGO3:<Barcelona>","score":0.0890470946201384},"text":"Barcelona"},{"charLength":6,"charOffset":24,"entity":{"kgId":"YAGO3:<Bilbao>","score":0.7586878628571405},"text":"Bilbao"},{"charLength":6,"charOffset":34,"entity":{"kgId":"YAGO3:<Madrid>","score":0.6119864599933966},"text":"Madrid"}]}
@@ -84,8 +84,8 @@ public class AmbiverseUtils
 		List<EntityRepresentation> entityRepresentations = new ArrayList<EntityRepresentation>();
 		log.info(entities.size() + " entities");
 
-		String accessToken = Ambiverse.getAccessToken();
-		JSONArray entitiesJson = new JSONObject(Ambiverse.getEntityInformation(entities, accessToken))
+		String accessToken = AmbiverseAccess.getAccessToken();
+		JSONArray entitiesJson = new JSONObject(AmbiverseAccess.getEntityInformation(entities, accessToken))
 				.getJSONArray("entities");
 		log.info(entitiesJson.length() + " entities in json");
 
@@ -121,7 +121,7 @@ public class AmbiverseUtils
 	{
 		Map<String, String> categories = new HashMap<String, String>();
 		Thread.sleep(1000);
-		JSONArray array = new JSONObject(Ambiverse.getCategoryNames(categoryIds, accessToken))
+		JSONArray array = new JSONObject(AmbiverseAccess.getCategoryNames(categoryIds, accessToken))
 				.getJSONArray("categories");
 		for (int i = 0; i < array.length(); i++)
 		{

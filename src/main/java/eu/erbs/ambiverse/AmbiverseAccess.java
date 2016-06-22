@@ -22,9 +22,9 @@ import org.apache.oltu.oauth2.common.message.types.GrantType;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class Ambiverse
+public class AmbiverseAccess
 {
-	private static final Logger log = Logger.getLogger(Ambiverse.class.getName());
+	private static final Logger log = Logger.getLogger(AmbiverseAccess.class.getName());
 
 	private static String AUTHORIZATION_HOST = "https://api.ambiverse.com/oauth2/token";
 	private static String ENTITY_LINKING_HOST = "https://api.ambiverse.com/entitylinking/v1beta1/analyze";

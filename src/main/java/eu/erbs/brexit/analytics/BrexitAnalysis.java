@@ -37,7 +37,7 @@ import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.palette.LinearGradientColorPalette;
 
 import de.tudarmstadt.ukp.dkpro.core.api.frequency.util.FrequencyDistribution;
-import eu.erbs.ambiverse.Ambiverse;
+import eu.erbs.ambiverse.AmbiverseAccess;
 import eu.erbs.ambiverse.AmbiverseUtils;
 import eu.erbs.ambiverse.model.EntityRepresentation;
 import eu.erbs.dkpro.DKProUtils;
@@ -440,7 +440,7 @@ public class BrexitAnalysis
 		Map<String, String> categoryNames = new HashMap<String, String>();
 
 		step = 200;
-		String accessToken = Ambiverse.getAccessToken();
+		String accessToken = AmbiverseAccess.getAccessToken();
 
 		for (int i = 0; i < categoryIds.size(); i += step)
 		{
@@ -506,7 +506,7 @@ public class BrexitAnalysis
 	{
 		List<String> entities = new ArrayList<String>();
 		List<String> lines = FileUtils.readLines(politician);
-		String accessToken = Ambiverse.getAccessToken();
+		String accessToken = AmbiverseAccess.getAccessToken();
 		List<String> entitesForLine;
 		for (int i = offset; i < lines.size(); i++)
 		{
